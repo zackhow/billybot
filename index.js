@@ -41,16 +41,6 @@ client.on("guildMemberUpdate", (oldMember, newMember) => {
     }
 });
 
-// client.on('interactionCreate', async interaction => {
-//     if (!interaction.isChatInputCommand()) return;
-//
-//     if (interaction.commandName === 'ping') {
-//         await interaction.reply('Pong!');
-//     }
-//
-//
-//     await wc.send('testing 1234');
-//
-// });
+
 
 client.login(token);
