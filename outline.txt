@@ -1,1 +1,35 @@
 Outline
+Fucking bot time
+
+Mod notices:
+(If)
+Someone joins the server
+Someone is breaking rules
+Someone leaves the server
+Someone changes their nickname
+Then
+Post in Mod-bot Channel
+
+
+TOS
+If Spamming
+Then Delete spam
+If repeated
+Time out person
+
+
+If someone post too many pictures in general
+Then
+A warning that points them to #other-pics-and-links
+
+
+
+React roles?
+React for roles to be pinged for Youtube/twitch/gamenight
+
+
+
+Alerts
+One for twitch posted in general then deleted when the stream is over
+
+Youtube for main and vod channel to the #other-content Channel if possible videos over 2 minutes long. (not sure if that last bit is possible)
