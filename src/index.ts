@@ -1,7 +1,7 @@
-import {REST, Routes, Client, Events, GatewayIntentBits, WebhookClient} from 'discord.js';
 import 'dotenv/config';
-import client from "./botClient.js";
+import client from "./botclient/botClient.js";
 import dataSource from "./data-source.js";
+import {refreshCommands} from "./botclient/commands.js";
 
 dataSource.initialize()
     .then(() => {
@@ -13,11 +13,7 @@ dataSource.initialize()
 
 // const guildRepo = getRepository(GuildEntity);
 const token = process.env.DISCORD_TOKEN;
-const webhook = process.env.WEBHOOK_URL;
-const appId = process.env.APP_ID;
 
-
-
-
+refreshCommands();
 
 client.login(token);
