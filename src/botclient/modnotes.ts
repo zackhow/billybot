@@ -24,7 +24,7 @@ export async function enableModnotes(interaction)
                 action: MODNOTES
             }
         );
-        await interaction.reply(`Saved channel channelId: ${interaction.channelId} name: ${interaction.channel.name}`)
+        await interaction.reply(`Enabled Mod Notes on name: ${interaction.channel.name}`)
     }
 }
 
@@ -36,7 +36,7 @@ export async function disableModnotes(interaction){
 
     if (actionEntry) {
         await channelRepo.remove(actionEntry);
-        await interaction.reply(`Removed action from channel: ${actionEntry.channelName}`);
+        await interaction.reply(`Removed Mod Notes from channel: ${actionEntry.channelName}`);
     } else {
         await interaction.reply(`No action setup on this channel!`);
     }
@@ -44,53 +44,54 @@ export async function disableModnotes(interaction){
 
 export function addModnotesListeners() {
     client.on(Events.GuildMemberAdd, async member => {
-        const channel = await channelRepo.findOne({
+        const actionEntry = await channelRepo.findOne({
             where: {
                 action: MODNOTES,
                 guildId: member.guild.id
             }
         });
-        if (channel) {
-            var chan = client.channels.cache.get(channel.channelId);
-            if (chan.isTextBased()) {
-                chan.send(`[${member.user.username}] has joined the server!`);
+        if (actionEntry) {
+            var channel = client.channels.cache.get(actionEntry.channelId);
+            if (channel.isTextBased()) {
+                channel.send(`[${member.user}] has joined the server!`);
             }
         }
     })
 
     client.on(Events.GuildMemberRemove, async member => {
-        const channel = await channelRepo.findOne({
+        const actionEntry = await channelRepo.findOne({
             where: {
                 action: MODNOTES,
                 guildId: member.guild.id
             }
         });
-        if (channel) {
-            var chan = client.channels.cache.get(channel.channelId);
-            if (chan.isTextBased()) {
-                chan.send(`[${member.user.username}] has left the server!`);
+        if (actionEntry) {
+            var channel = client.channels.cache.get(actionEntry.channelId);
+            if (channel.isTextBased()) {
+                channel.send(`[${member.user}] has left the server!`);
             }
         }
     })
 
-    client.on("guildMemberUpdate", async (oldMember, newMember) => {
+    client.on(Events.GuildMemberUpdate, async (oldMember, newMember) => {
         if (oldMember.nickname !== newMember.nickname) {
-            var oldName = oldMember.nickname == null ? oldMember.user.username : oldMember.nickname;
-            var newName = newMember.nickname == null ? newMember.user.username : newMember.nickname;
-            var msg = "User [" + oldName + "] has changed their nickname to [" + newName + "] !"
             // wc.send(msg);
-            const channel = await channelRepo.findOne({
+            const actionEntry = await channelRepo.findOne({
                 where: {
                     action: MODNOTES,
                     guildId: newMember.guild.id
                 }
             });
 
-            if (channel) {
+            if (actionEntry) {
+                var oldName = oldMember.nickname == null ? oldMember.user.username : oldMember.nickname;
+                var newName = newMember.nickname == null ? newMember.user.username : newMember.nickname;
+                var msg = `${oldMember.user} has changed their name!\n Old Name:[` + oldName + "] New Name:[" + newName + "] !";
+
                 console.log(msg);
-                var chan = client.channels.cache.get(channel.channelId);
-                if (chan.isTextBased()) {
-                    chan.send(msg);
+                var channel = client.channels.cache.get(actionEntry.channelId);
+                if (channel.isTextBased()) {
+                    channel.send(msg);
                 }
             }
 

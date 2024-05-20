@@ -10,11 +10,11 @@ export const MODNOTESCLEAR = "modnotesclear";
 const commands = [
     {
         name: MODNOTES,
-        description: 'Enable or disable mod notices'
+        description: 'Enable mod notices'
     },
     {
         name: MODNOTESCLEAR,
-        description: 'Clear the mod notices channel'
+        description: 'Disable mod notices'
     },
     {
         name: PING,
