@@ -6,6 +6,8 @@ const appId = process.env.APP_ID;
 export const PING = "ping";
 export const MODNOTES = "modnotes";
 export const MODNOTESCLEAR = "modnotesclear";
+export const TWITCH_STREAM_ONLINE = "twitchstreamonline";
+export const TWITCH_STREAM_ONLINE_CLEAR = "twitchstreamonlineclear";
 
 const commands = [
     {
@@ -19,6 +21,30 @@ const commands = [
     {
         name: PING,
         description: 'Replies with Pong!'
+    },
+    {
+        name: TWITCH_STREAM_ONLINE,
+        description: 'Alert when Twitch stream is online',
+        options: [
+            {
+                name: 'streamer',
+                type: 3,
+                description: 'The name of the Twitch streamer',
+                required: true
+            }
+        ]
+    },
+    {
+        name: TWITCH_STREAM_ONLINE_CLEAR,
+        description: 'Clear Twitch stream online alert',
+        options: [
+            {
+                name: 'streamer',
+                type: 3,
+                description: 'The name of the Twitch streamer',
+                required: true
+            }
+        ]
     }
 ];
 

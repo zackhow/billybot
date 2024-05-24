@@ -1,15 +1,12 @@
 import "reflect-metadata"
-import {DataSource, Entity, EntityTarget, Repository} from "typeorm"
-import { ActionEntry } from "./entity/ActionEntry.js"
-import { GuildEntity } from "./entity/GuildEntity.js"
-import exp from "constants";
+import {DataSource, EntityTarget, Repository} from "typeorm"
 
 const dataSource = new DataSource({
     type: "better-sqlite3",
     database: "billybot.db",
     synchronize: true,
     logging: true,
-    entities: [ActionEntry, GuildEntity],
+    entities: ['src/entity/impl/*.js'],
     subscribers: [],
     migrations: [],
 })
