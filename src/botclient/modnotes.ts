@@ -77,7 +77,7 @@ export function addModnotesListeners() {
             if (modNotesEntity) {
                 const oldName = oldMember.nickname == null ? oldMember.user.username : oldMember.nickname;
                 const newName = newMember.nickname == null ? newMember.user.username : newMember.nickname;
-                const msg = `${oldMember.user} has changed their name!\n Old Name:[` + oldName + "] New Name:[" + newName + "] !";
+                const msg = `${oldMember.user} has changed their name!\n Old Name:[` + oldName + "]\nNew Name:[" + newName + "] !";
 
                 console.log(msg);
                 const channel = client.channels.cache.get(modNotesEntity.channelId);

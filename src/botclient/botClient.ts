@@ -2,6 +2,7 @@ import {Client, Events, GatewayIntentBits} from "discord.js";
 import {MODNOTES, MODNOTESCLEAR, PING, TWITCH_STREAM_ONLINE, TWITCH_STREAM_ONLINE_CLEAR} from "./commands.js";
 import {addModnotesListeners, disableModnotes, enableModnotes} from "./modnotes.js";
 import {enableTwitchStreamOnline} from "./twitch.js";
+import {startListeners} from "../twitch/listener.js";
 
 const token = process.env.DISCORD_TOKEN;
 const intents = [GatewayIntentBits.GuildMembers,
