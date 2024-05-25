@@ -18,6 +18,10 @@ export async function enableTwitchStreamOnline(interaction: ChatInputCommandInte
         await interaction.reply(`Action already setup on name: ${actionEntry.channelName}! run '/twitchstreamonlineclear to clear'`);
     } else {
         const user = await apiClient.users.getUserByName(interaction.options.getString('streamer'));
+        if (!user) {
+            await interaction.reply(`Twitch user ${interaction.options.getString('streamer')} not found!`);
+            return;
+        }
         const twitchAlert = await channelRepo.save(
             {
                 channelId: interaction.channelId,
