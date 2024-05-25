@@ -57,9 +57,9 @@ export function stopSub(id: string){
     let sub = subMap.get(id);
     if (sub){
         sub.stop();
+        subMap.delete(id);
     }
 }
-
 
 export default apiClient;
 
