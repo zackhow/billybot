@@ -37,12 +37,13 @@ export async function startListeners() {
 }
 
 export function alertStreamOnline(twitchAlert: TwitchAlert){
-    let sub = listener.onStreamOnline(twitchAlert.twitchId, () => streamOnline(twitchAlert).then((msg) => {
-        if (twitchAlert.deleteMessage) {
-            deleteMessageWhenOffline(twitchAlert, msg);
-        }
-    }));
-
+    let sub = listener.onStreamOnline(twitchAlert.twitchId, () => {
+        if (subMap.has(String(twitchAlert.id))){
+            streamOnline(twitchAlert).then((msg) => {
+            if (twitchAlert.deleteMessage) {
+                deleteMessageWhenOffline(twitchAlert, msg);
+            }
+    })}});
     subMap.set(String(twitchAlert.id), sub);
 }
 

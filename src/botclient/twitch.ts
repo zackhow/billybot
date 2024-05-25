@@ -39,8 +39,8 @@ export async function disableTwitchStreamOnline(interaction: ChatInputCommandInt
             twitchName: interaction.options.getString('streamer')}
     });
     if (actionEntry) {
-        await channelRepo.remove(actionEntry);
         stopSub(String(actionEntry.id));
+        await channelRepo.remove(actionEntry);
         await interaction.reply(`Removed Twitch notifications for ${actionEntry.twitchName}`);
     } else {
         await interaction.reply(`No action setup on this channel for ${interaction.options.getString('streamer')}!`);
