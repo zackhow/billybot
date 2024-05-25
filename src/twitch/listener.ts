@@ -1,8 +1,8 @@
 import {AppTokenAuthProvider} from '@twurple/auth';
-import {ApiClient, HelixUserApi} from '@twurple/api';
+import {ApiClient} from '@twurple/api';
 import {EventSubHttpListener, ReverseProxyAdapter} from "@twurple/eventsub-http";
 import {streamOnline} from "../botclient/twitch.js";
-import dataSource, {getRepository} from "../data-source.js";
+import {getRepository} from "../data-source.js";
 import {TwitchAlert} from "../entity/impl/TwitchAlert.js";
 import {Message} from "discord.js";
 
@@ -16,6 +16,8 @@ const twitchCallbackHost = process.env.TWITCH_CALLBACK_HOST;
 
 const authProvider = new AppTokenAuthProvider(clientId, clientSecret);
 const apiClient = new ApiClient({ authProvider });
+
+let subMap = new Map<string, any>();
 
 export const listener = new EventSubHttpListener({
     apiClient,
@@ -35,11 +37,13 @@ export async function startListeners() {
 }
 
 export function alertStreamOnline(twitchAlert: TwitchAlert){
-    listener.onStreamOnline(twitchAlert.twitchId, () => streamOnline(twitchAlert).then((msg) => {
+    let sub = listener.onStreamOnline(twitchAlert.twitchId, () => streamOnline(twitchAlert).then((msg) => {
         if (twitchAlert.deleteMessage) {
             deleteMessageWhenOffline(twitchAlert, msg);
         }
     }));
+
+    subMap.set(twitchAlert.getUniqueIdentifier(), sub);
 }
 
 export function deleteMessageWhenOffline(twitchAlert: TwitchAlert, message: Message){
@@ -49,8 +53,13 @@ export function deleteMessageWhenOffline(twitchAlert: TwitchAlert, message: Mess
     });
 }
 
-// export function stopListenersForUserId(twitchId: string){
-// }
+export function stopSub(id: string){
+    let sub = subMap.get(id);
+    if (sub){
+        sub.stop();
+    }
+}
+
 
 export default apiClient;
 

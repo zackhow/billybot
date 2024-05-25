@@ -1,15 +1,17 @@
 import {getRepository} from "../data-source.js";
 import {TwitchAlert} from "../entity/impl/TwitchAlert.js";
 import client from "./botClient.js";
-import {Message} from "discord.js";
-import apiClient, {alertStreamOnline} from "../twitch/listener.js";
+import {CacheType, ChatInputCommandInteraction, Message} from "discord.js";
+import apiClient, {alertStreamOnline, stopSub} from "../twitch/listener.js";
 
 const channelRepo = getRepository(TwitchAlert);
 
-export async function enableTwitchStreamOnline(interaction){
+export async function enableTwitchStreamOnline(interaction: ChatInputCommandInteraction<CacheType>) {
     const actionEntry = await channelRepo.findOne({
-        where: {guildId: interaction.guildId,
-                twitchName: interaction.options.getString('streamer')}
+        where: {
+            guildId: interaction.guildId,
+            twitchName: interaction.options.getString('streamer')
+        }
     });
 
     if (actionEntry) {
@@ -31,13 +33,14 @@ export async function enableTwitchStreamOnline(interaction){
     }
 }
 
-export async function disableTwitchStreamOnline(interaction){
+export async function disableTwitchStreamOnline(interaction: ChatInputCommandInteraction<CacheType>){
     const actionEntry = await channelRepo.findOne({
         where: {guildId: interaction.guildId,
             twitchName: interaction.options.getString('streamer')}
     });
     if (actionEntry) {
         await channelRepo.remove(actionEntry);
+        stopSub(actionEntry.getUniqueIdentifier());
         await interaction.reply(`Removed Twitch notifications for ${actionEntry.twitchName}`);
     } else {
         await interaction.reply(`No action setup on this channel for ${interaction.options.getString('streamer')}!`);
