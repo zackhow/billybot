@@ -43,7 +43,7 @@ export function alertStreamOnline(twitchAlert: TwitchAlert){
         }
     }));
 
-    subMap.set(twitchAlert.getUniqueIdentifier(), sub);
+    subMap.set(String(twitchAlert.id), sub);
 }
 
 export function deleteMessageWhenOffline(twitchAlert: TwitchAlert, message: Message){

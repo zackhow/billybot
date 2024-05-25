@@ -15,7 +15,4 @@ export class TwitchAlert extends ChannelBase{
     @Column({default: false})
     public deleteMessage: boolean = false;
 
-    public getUniqueIdentifier(): string {
-        return this.twitchId.concat(this.guildId);
-    }
 }
