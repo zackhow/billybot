@@ -49,7 +49,7 @@ export async function streamOnline(twitchAlert: TwitchAlert) : Promise<Message> 
     console.log("stream is online " + twitchAlert.twitchId);
     if (channel.isTextBased()) {
 
-        let message = `https://www.twitch.tv/${twitchAlert.twitchId}\nThe Twitch stream ${twitchAlert.twitchId} is now online!`;
+        let message = `https://www.twitch.tv/${twitchAlert.twitchId}\n@everyone ${twitchAlert.twitchName} is now streaming!`;
         if (twitchAlert.onlineNote)
         {
             message = twitchAlert.onlineNote;
