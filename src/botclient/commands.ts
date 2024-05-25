@@ -57,7 +57,7 @@ const commands = [
 
 export async function refreshCommands() {
     try {
-        const rest = new REST({ version: '10' }).setToken(token);
+        const rest = new REST({version: '10'}).setToken(token);
 
         console.log('Started refreshing application (/) commands.');
 

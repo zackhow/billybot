@@ -8,7 +8,7 @@ const intents = [GatewayIntentBits.GuildMembers,
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages];
 
-export const client = new Client({ intents: intents });
+export const client = new Client({intents: intents});
 
 client.once(Events.ClientReady, readyClient => {
     console.log(`Ready! Logged in as ${readyClient.user.tag}`);

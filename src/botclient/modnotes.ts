@@ -5,8 +5,8 @@ import {ModNotes} from "../entity/impl/ModNotes.js";
 
 const modNotesRepo = getRepository(ModNotes);
 
-export async function enableModnotes(interaction)
-{    const modNotesEntity = await modNotesRepo.findOne({
+export async function enableModnotes(interaction) {
+    const modNotesEntity = await modNotesRepo.findOne({
         where: {guildId: interaction.guildId}
     });
 
@@ -24,7 +24,7 @@ export async function enableModnotes(interaction)
     }
 }
 
-export async function disableModnotes(interaction){
+export async function disableModnotes(interaction) {
     const modNotesEntity = await modNotesRepo.findOne({
         where: {guildId: interaction.guildId}
     });

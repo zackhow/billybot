@@ -2,7 +2,7 @@ import {Column, Entity} from "typeorm";
 import {ChannelBase} from "../ChannelBase.js";
 
 @Entity()
-export class TwitchAlert extends ChannelBase{
+export class TwitchAlert extends ChannelBase {
     @Column()
     public twitchId: string;
 

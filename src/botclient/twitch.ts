@@ -37,10 +37,12 @@ export async function enableTwitchStreamOnline(interaction: ChatInputCommandInte
     }
 }
 
-export async function disableTwitchStreamOnline(interaction: ChatInputCommandInteraction<CacheType>){
+export async function disableTwitchStreamOnline(interaction: ChatInputCommandInteraction<CacheType>) {
     const actionEntry = await channelRepo.findOne({
-        where: {guildId: interaction.guildId,
-            twitchName: interaction.options.getString('streamer')}
+        where: {
+            guildId: interaction.guildId,
+            twitchName: interaction.options.getString('streamer')
+        }
     });
     if (actionEntry) {
         stopSub(String(actionEntry.id));
@@ -51,14 +53,13 @@ export async function disableTwitchStreamOnline(interaction: ChatInputCommandInt
     }
 }
 
-export async function streamOnline(twitchAlert: TwitchAlert) : Promise<Message> {
+export async function streamOnline(twitchAlert: TwitchAlert): Promise<Message> {
     const channel = client.channels.cache.get(twitchAlert.channelId);
     console.log("stream is online " + twitchAlert.twitchId);
     if (channel.isTextBased()) {
 
         let message = `https://www.twitch.tv/${twitchAlert.twitchName}\n@everyone ${twitchAlert.twitchName} is now streaming!`;
-        if (twitchAlert.onlineNote)
-        {
+        if (twitchAlert.onlineNote) {
             message = twitchAlert.onlineNote;
         }
         return await channel.send(message);

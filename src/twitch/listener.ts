@@ -15,7 +15,7 @@ const twitchListenerSecret = process.env.TWITCH_LISTENER_SECRET;
 const twitchCallbackHost = process.env.TWITCH_CALLBACK_HOST;
 
 const authProvider = new AppTokenAuthProvider(clientId, clientSecret);
-const apiClient = new ApiClient({ authProvider });
+const apiClient = new ApiClient({authProvider});
 
 let subMap = new Map<string, any>();
 
@@ -36,27 +36,29 @@ export async function startListeners() {
     }
 }
 
-export function alertStreamOnline(twitchAlert: TwitchAlert){
+export function alertStreamOnline(twitchAlert: TwitchAlert) {
     let sub = listener.onStreamOnline(twitchAlert.twitchId, () => {
-        if (subMap.has(String(twitchAlert.id))){
+        if (subMap.has(String(twitchAlert.id))) {
             streamOnline(twitchAlert).then((msg) => {
-            if (twitchAlert.deleteMessage) {
-                deleteMessageWhenOffline(twitchAlert, msg);
-            }
-    })}});
+                if (twitchAlert.deleteMessage) {
+                    deleteMessageWhenOffline(twitchAlert, msg);
+                }
+            })
+        }
+    });
     subMap.set(String(twitchAlert.id), sub);
 }
 
-export function deleteMessageWhenOffline(twitchAlert: TwitchAlert, message: Message){
+export function deleteMessageWhenOffline(twitchAlert: TwitchAlert, message: Message) {
     const sub = listener.onStreamOffline(twitchAlert.twitchId, () => {
         message.delete();
         sub.stop();
     });
 }
 
-export function stopSub(id: string){
+export function stopSub(id: string) {
     let sub = subMap.get(id);
-    if (sub){
+    if (sub) {
         sub.stop();
         subMap.delete(id);
     }
