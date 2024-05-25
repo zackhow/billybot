@@ -15,13 +15,13 @@ export async function enableTwitchStreamOnline(interaction){
     if (actionEntry) {
         await interaction.reply(`Action already setup on name: ${actionEntry.channelName}! run '/twitchstreamonlineclear to clear'`);
     } else {
-        const userId = await apiClient.users.getUserByName(interaction.options.getString('streamer'));
+        const user = await apiClient.users.getUserByName(interaction.options.getString('streamer'));
         const twitchAlert = await channelRepo.save(
             {
                 channelId: interaction.channelId,
                 guildId: interaction.guildId,
                 channelName: interaction.channel.name,
-                twitchId: userId.id,
+                twitchId: user.id,
                 twitchName: interaction.options.getString('streamer'),
                 deleteMessage: interaction.options.getBoolean('deleteonoffline')
             }
