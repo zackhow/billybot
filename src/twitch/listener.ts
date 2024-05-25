@@ -30,22 +30,27 @@ export async function startListeners() {
     let allChannels = await channelRepo.find();
 
     for (const twitchAlert of allChannels) {
-
-        const user = await apiClient.users.getUserByName(twitchAlert.twitchName);
-
-        listener.onStreamOnline(user.id, () => streamOnline(twitchAlert).then((msg) => {
-            if (twitchAlert.deleteMessage) {
-                deleteMessageWhenOffline(twitchAlert, msg);
-            }
-            }));
+        alertStreamOnline(twitchAlert);
     }
 }
 
+export function alertStreamOnline(twitchAlert: TwitchAlert){
+    listener.onStreamOnline(twitchAlert.twitchId, () => streamOnline(twitchAlert).then((msg) => {
+        if (twitchAlert.deleteMessage) {
+            deleteMessageWhenOffline(twitchAlert, msg);
+        }
+    }));
+}
+
 export function deleteMessageWhenOffline(twitchAlert: TwitchAlert, message: Message){
-    const sub = listener.onStreamOffline(twitchAlert.twitchName, () => {
+    const sub = listener.onStreamOffline(twitchAlert.twitchId, () => {
         message.delete();
     });
     sub.stop();
 }
 
+// export function stopListenersForUserId(twitchId: string){
+// }
+
+export default apiClient;
 

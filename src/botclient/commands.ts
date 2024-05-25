@@ -31,6 +31,12 @@ const commands = [
                 type: 3,
                 description: 'The name of the Twitch streamer',
                 required: true
+            },
+            {
+                name: 'deleteonoffline',
+                type: 5,
+                description: 'Delete the message when the stream goes offline',
+                required: true
             }
         ]
     },

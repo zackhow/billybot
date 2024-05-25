@@ -4,6 +4,9 @@ import {ChannelBase} from "../ChannelBase.js";
 @Entity()
 export class TwitchAlert extends ChannelBase{
     @Column()
+    public twitchId: string;
+
+    @Column()
     public twitchName: string;
 
     @Column({nullable: true})

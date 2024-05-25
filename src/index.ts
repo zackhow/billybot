@@ -10,19 +10,15 @@ dataSource.initialize()
     .then(() => {
         console.log("Data Source has been initialized!")
 
-        client.login(token);
-        listener.start();
-
-        refreshCommands();
-        startListeners();
+        afterDbInit();
     })
     .catch((err) => {
         console.error("Error during Data Source initialization", err)
     });
 
-// const guildRepo = getRepository(GuildEntity);
-
-
-
-
-// setInterval(notifyTwitchStreamStatus, 60 * 1000);
+function afterDbInit() {
+    client.login(token);
+    listener.start();
+    refreshCommands();
+    startListeners();
+}
