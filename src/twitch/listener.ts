@@ -45,8 +45,8 @@ export function alertStreamOnline(twitchAlert: TwitchAlert){
 export function deleteMessageWhenOffline(twitchAlert: TwitchAlert, message: Message){
     const sub = listener.onStreamOffline(twitchAlert.twitchId, () => {
         message.delete();
+        sub.stop();
     });
-    sub.stop();
 }
 
 // export function stopListenersForUserId(twitchId: string){
