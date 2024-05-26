@@ -1,1 +1,1 @@
-# dicordbot
+# discordbot
