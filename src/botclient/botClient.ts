@@ -6,7 +6,8 @@ import {disableTwitchStreamOnline, enableTwitchStreamOnline} from "./twitch.js";
 const token = process.env.DISCORD_TOKEN;
 const intents = [GatewayIntentBits.GuildMembers,
     GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMessages];
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildModeration];
 
 export const client = new Client({intents: intents});
 

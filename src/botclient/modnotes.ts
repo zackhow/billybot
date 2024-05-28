@@ -51,6 +51,33 @@ export function addModnotesListeners() {
             }
         }
     });
+    client.on(Events.GuildBanAdd, async ban => {
+        const modNotesEntity = await modNotesRepo.findOne({
+            where: {
+                guildId: ban.guild.id
+            }
+        });
+        if (modNotesEntity) {
+            const channel = client.channels.cache.get(modNotesEntity.channelId);
+            if (channel.isTextBased()) {
+                channel.send(`[${ban.user}] has been banned!`);
+            }
+        }
+    });
+
+    client.on(Events.GuildBanRemove, async ban => {
+        const modNotesEntity = await modNotesRepo.findOne({
+            where: {
+                guildId: ban.guild.id
+            }
+        });
+        if (modNotesEntity) {
+            const channel = client.channels.cache.get(modNotesEntity.channelId);
+            if (channel.isTextBased()) {
+                channel.send(`[${ban.user}] has been unbanned!`);
+            }
+        }
+    });
 
     client.on(Events.GuildMemberRemove, async member => {
         const modNotesEntity = await modNotesRepo.findOne({
