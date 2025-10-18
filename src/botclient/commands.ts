@@ -37,6 +37,12 @@ const commands = [
                 type: 5,
                 description: 'Delete the message when the stream goes offline',
                 required: true
+            },
+            {
+                name: 'onlinenote',
+                type: 3,
+                description: 'Message to post when the stream goes online',
+                required: false
             }
         ]
     },

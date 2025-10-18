@@ -29,7 +29,8 @@ export async function enableTwitchStreamOnline(interaction: ChatInputCommandInte
                 channelName: interaction.channel.name,
                 twitchId: user.id,
                 twitchName: interaction.options.getString('streamer'),
-                deleteMessage: interaction.options.getBoolean('deleteonoffline')
+                deleteMessage: interaction.options.getBoolean('deleteonoffline'),
+                onlineNote: interaction.options.getString('onlinenote') || null
             }
         );
         alertStreamOnline(twitchAlert);
