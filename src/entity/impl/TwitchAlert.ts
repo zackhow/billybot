@@ -4,15 +4,15 @@ import {ChannelBase} from "../ChannelBase.js";
 @Entity()
 export class TwitchAlert extends ChannelBase {
     @Column()
-    public twitchId: string;
+    public twitchId!: string;
 
     @Column()
-    public twitchName: string;
+    public twitchName!: string;
 
     @Column({nullable: true})
-    public onlineNote: string;
+    public onlineNote?: string;
 
-    @Column({default: false})
-    public deleteMessage: boolean = false;
+    @Column({type: "boolean", default: false})
+    public deleteMessage = false;
 
 }

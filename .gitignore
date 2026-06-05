@@ -2,3 +2,8 @@ node_modules
 .env
 .idea
 billybot.db
+build
+dist
+*.js
+*.js.map
+.DS_Store

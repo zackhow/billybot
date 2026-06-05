@@ -1,10 +1,11 @@
 {
   "name": "discordbot",
   "version": "1.0.0",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "tsc": "tsc"
+    "build": "node ./node_modules/typescript/bin/tsc",
+    "start": "node dist/index.js",
+    "dev": "node ./node_modules/typescript/bin/tsc && node dist/index.js"
   },
   "keywords": [],
   "author": "",
@@ -16,7 +17,7 @@
     "@twurple/auth": "^7.1.0",
     "@twurple/eventsub-http": "^7.1.0",
     "axios": "^1.7.1",
-    "better-sqlite3": "^9.6.0",
+    "better-sqlite3": "^11.10.0",
     "discord.js": "^14.15.2",
     "dotenv": "^16.4.5",
     "typeorm": "^0.3.20"

@@ -17,6 +17,10 @@ client.once(Events.ClientReady, readyClient => {
 
 client.on(Events.InteractionCreate, async interaction => {
     if (!interaction.isChatInputCommand()) return;
+    if (process.env.NODE_ENV !== 'production') {
+        const channelName = (interaction.channel as any)?.name || 'unknown';
+        console.log(`[CMD] ${interaction.user.tag} used /${interaction.commandName} in #${channelName}`);
+    }
     switch (interaction.commandName) {
         case MODNOTES:
             await enableModnotes(interaction);
@@ -31,8 +35,6 @@ client.on(Events.InteractionCreate, async interaction => {
             await disableTwitchStreamOnline(interaction);
             break;
         case PING:
-            // await test();
-
             await interaction.reply('Pong!');
             break;
         default:

@@ -1,4 +1,4 @@
-import {REST, Routes} from "discord.js";
+import {ApplicationCommandOptionType, REST, Routes} from "discord.js";
 
 const token = process.env.DISCORD_TOKEN;
 const appId = process.env.APP_ID;
@@ -28,19 +28,19 @@ const commands = [
         options: [
             {
                 name: 'streamer',
-                type: 3,
+                type: ApplicationCommandOptionType.String,
                 description: 'The name of the Twitch streamer',
                 required: true
             },
             {
                 name: 'deleteonoffline',
-                type: 5,
+                type: ApplicationCommandOptionType.Boolean,
                 description: 'Delete the message when the stream goes offline',
                 required: true
             },
             {
                 name: 'onlinenote',
-                type: 3,
+                type: ApplicationCommandOptionType.String,
                 description: 'Message to post when the stream goes online',
                 required: false
             }
@@ -52,7 +52,7 @@ const commands = [
         options: [
             {
                 name: 'streamer',
-                type: 3,
+                type: ApplicationCommandOptionType.String,
                 description: 'The name of the Twitch streamer',
                 required: true
             }
@@ -63,11 +63,11 @@ const commands = [
 
 export async function refreshCommands() {
     try {
-        const rest = new REST({version: '10'}).setToken(token);
+        const rest = new REST({version: '10'}).setToken(token!);
 
         console.log('Started refreshing application (/) commands.');
 
-        await rest.put(Routes.applicationCommands(appId), {body: commands});
+        await rest.put(Routes.applicationCommands(appId!), {body: commands});
 
         console.log('Successfully reloaded application (/) commands.');
     } catch (error) {

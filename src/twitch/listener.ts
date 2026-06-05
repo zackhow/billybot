@@ -14,7 +14,7 @@ const clientSecret = process.env.TWITCH_CLIENT_SECRET;
 const twitchListenerSecret = process.env.TWITCH_LISTENER_SECRET;
 const twitchCallbackHost = process.env.TWITCH_CALLBACK_HOST;
 
-const authProvider = new AppTokenAuthProvider(clientId, clientSecret);
+const authProvider = new AppTokenAuthProvider(clientId!, clientSecret!);
 const apiClient = new ApiClient({authProvider});
 
 let subMap = new Map<string, any>();
@@ -22,10 +22,10 @@ let subMap = new Map<string, any>();
 export const listener = new EventSubHttpListener({
     apiClient,
     adapter: new ReverseProxyAdapter({
-        hostName: twitchCallbackHost, // The host name the server is available from
-        port: 8080 // The port to listen on, defaults to 8080
+        hostName: twitchCallbackHost!,
+        port: 8080
     }),
-    secret: twitchListenerSecret
+    secret: twitchListenerSecret!
 });
 
 export async function startListeners() {
@@ -40,7 +40,7 @@ export function alertStreamOnline(twitchAlert: TwitchAlert) {
     let sub = listener.onStreamOnline(twitchAlert.twitchId, () => {
         if (subMap.has(String(twitchAlert.id))) {
             streamOnline(twitchAlert).then((msg) => {
-                if (twitchAlert.deleteMessage) {
+                if (twitchAlert.deleteMessage && msg) {
                     deleteMessageWhenOffline(twitchAlert, msg);
                 }
             })
@@ -49,7 +49,7 @@ export function alertStreamOnline(twitchAlert: TwitchAlert) {
     subMap.set(String(twitchAlert.id), sub);
 }
 
-export function deleteMessageWhenOffline(twitchAlert: TwitchAlert, message: Message) {
+export function deleteMessageWhenOffline(twitchAlert: TwitchAlert, message: Message<boolean>) {
     const sub = listener.onStreamOffline(twitchAlert.twitchId, () => {
         message.delete();
         sub.stop();

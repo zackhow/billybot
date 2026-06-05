@@ -1,17 +1,16 @@
 import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 
 
-@Entity()
-export class ChannelBase {
+export abstract class ChannelBase {
     @PrimaryGeneratedColumn()
-    public id: number;
+    public id!: number;
 
     @Column()
-    public channelId: string
+    public channelId!: string;
 
     @Column()
-    public guildId: string
+    public guildId!: string;
 
     @Column()
-    public channelName: string
+    public channelName!: string;
 }
