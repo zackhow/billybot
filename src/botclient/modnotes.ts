@@ -17,12 +17,12 @@ export async function enableModnotes(interaction: ChatInputCommandInteraction) {
         await interaction.reply('Could not determine channel.');
         return;
     }
-    const channelName = 'name' in interaction.channel ? interaction.channel.name : interaction.channelId;
+    const channelName = 'name' in interaction.channel ? interaction.channel.name : interaction.channelId!;
     await modNotesRepo.save({
-        channelId: interaction.channelId,
+        channelId: interaction.channelId!,
         guildId: interaction.guildId ?? undefined,
         channelName,
-    });
+    } as any);
     await interaction.reply(`Enabled Mod Notes on channel: ${channelName}`);
 }
 
@@ -48,8 +48,8 @@ export function addModnotesListeners(): void {
         });
         if (modNotesEntity) {
             const channel = client.channels.cache.get(modNotesEntity.channelId);
-            if (channel?.isTextBased()) {
-                channel.send(`[${member.user}] has joined the server!`);
+            if (channel && !channel.partial && channel.isTextBased()) {
+                (channel as any).send(`[${member.user}] has joined the server!`);
             }
         }
     });
@@ -61,8 +61,8 @@ export function addModnotesListeners(): void {
         });
         if (modNotesEntity) {
             const channel = client.channels.cache.get(modNotesEntity.channelId);
-            if (channel?.isTextBased()) {
-                channel.send(`[${ban.user}] has been banned!`);
+            if (channel && !channel.partial && channel.isTextBased()) {
+                (channel as any).send(`[${ban.user}] has been banned!`);
             }
         }
     });
@@ -75,8 +75,8 @@ export function addModnotesListeners(): void {
         });
         if (modNotesEntity) {
             const channel = client.channels.cache.get(modNotesEntity.channelId);
-            if (channel?.isTextBased()) {
-                channel.send(`[${ban.user}] has been unbanned!`);
+            if (channel && !channel.partial && channel.isTextBased()) {
+                (channel as any).send(`[${ban.user}] has been unbanned!`);
             }
         }
     });
@@ -87,12 +87,12 @@ export function addModnotesListeners(): void {
                 guildId: member.guild.id
             }
         });
-        if (modNotesEntity) {
-            const channel = client.channels.cache.get(modNotesEntity.channelId);
-            if (channel?.isTextBased()) {
-                channel.send(`[${member.user}] has left the server!`);
+   if (modNotesEntity) {
+                const channel = client.channels.cache.get(modNotesEntity.channelId);
+                if (channel && !channel.partial && channel.isTextBased()) {
+                    (channel as any).send(`[${member.user}] has left the server!`);
+                }
             }
-        }
     });
 
     client.on(Events.GuildMemberUpdate, async (member, oldMember) => {
@@ -109,8 +109,8 @@ export function addModnotesListeners(): void {
                 const msg = `${oldMember.user} has changed their name!\n Old Name:[${oldName}]\nNew Name:[${newName}]!`;
 
                 const channel = client.channels.cache.get(modNotesEntity.channelId);
-                if (channel?.isTextBased()) {
-                    channel.send(msg);
+                if (channel && !channel.partial && channel.isTextBased()) {
+                    (channel as any).send(msg);
                 }
             }
 

@@ -42,7 +42,7 @@ export async function enableTwitchStreamOnline(interaction: ChatInputCommandInte
             twitchName: streamer,
             deleteMessage: interaction.options.getBoolean('deleteonoffline') ?? false,
             onlineNote: interaction.options.getString('onlinenote') ?? undefined
-        });
+        } as any);
         alertStreamOnline(twitchAlert);
         await interaction.reply(`Enabled Twitch Stream Online on channel: ${channelName}`);
     }
@@ -72,12 +72,12 @@ export async function disableTwitchStreamOnline(interaction: ChatInputCommandInt
  export async function streamOnline(twitchAlert: TwitchAlert): Promise<Message<boolean> | undefined> {
     const channel = client.channels.cache.get(twitchAlert.channelId);
     console.log("stream is online " + twitchAlert.twitchId);
-    if (channel?.isTextBased()) {
+    if (channel && !channel.partial && channel.isTextBased()) {
         let message = `https://www.twitch.tv/${twitchAlert.twitchName}\n@everyone ${twitchAlert.twitchName} is now streaming!`;
         if (twitchAlert.onlineNote) {
             message = twitchAlert.onlineNote;
         }
-        return await channel.send(message);
+        return await (channel as any).send(message);
     }
     return undefined;
 }
